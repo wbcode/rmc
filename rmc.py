@@ -55,7 +55,8 @@ def on_message(client, userdata, msg):
   p = str(msg.payload).strip().split(' ')
   
   #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
-  if entity == "www" and p[0] == "start" :
+  
+  if entity == "www" and p[0] == "start"  and config.get('specials','youtube_tv') == 'true':
     r = re.compile(r"https:\/\/www.youtube.com\/watch\?v=(.*)")
     for i in range(1,len(p)) : 
 	  m = r.search(p[i])
