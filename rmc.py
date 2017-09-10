@@ -56,7 +56,7 @@ def on_message(client, userdata, msg):
   
   #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
   if entity == "www" and p[0] == "start" :
-    r = re.compile(r"https:\/\/www.youtube.com\/watch\?v=(\w+)")
+    r = re.compile(r"https:\/\/www.youtube.com\/watch\?v=(.*)")
     for i in range(1,len(p)) : 
 	  m = r.search(p[i])
 	  if m is not None :

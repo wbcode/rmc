@@ -35,6 +35,6 @@ protocol websockets
 sudo cp etc/init.d/rmc.sh /etc/init.d/
 sudo chmod 755 /etc/init.d/rmc.sh 
 sudo update-rc.d rmc.sh default
-chown 755 rmc.py
+chmod 755 rmc.py
 sudo service rmc start
 ```
