@@ -5,11 +5,30 @@ import ConfigParser
 import os
 import re
 import logging
+import argparse
 
+version="0.01"
 
+# command line args
+parser = argparse.ArgumentParser(description='Client for the Remote MQTT command application, aka the rmc')
+parser.add_argument('-c', '--config', default='/home/pi/rmc/rmc.conf', nargs='?', help='Configuration file location, default: /home/pi/rmc/rmc.conf')
+parser.add_argument('-V', '--version', action='store_true', help='Show the version of rmc')
+
+args = parser.parse_args()
+
+# show version
+if args.version is True :
+  print "rmc version: "+version
+  quit()  
+
+# we need config file or we will die
+if os.path.isfile(args.config) is False: 
+  print "Config file doesn't exist, exiting."
+  quit()
+  
 # Config file
 config = ConfigParser.ConfigParser(allow_no_value=True)
-config.read("/home/pi/mqtt/rmc.conf")
+config.read(args.config)
 
 # Setup logging
 log = logging.getLogger('rmc')
@@ -35,7 +54,7 @@ def on_message(client, userdata, msg):
   entity = msg.topic.split('/')[4]
   p = str(msg.payload).strip().split(' ')
   
-  #youtube special to move from browser to tv mode
+  #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
   if entity == "www" and p[0] == "start" :
     r = re.compile(r"https:\/\/www.youtube.com\/watch\?v=(\w+)")
     for i in range(1,len(p)) : 
@@ -54,7 +73,6 @@ def on_message(client, userdata, msg):
 		    for i in range(1,len(p)) : 
 			    cmd = cmd.replace('$'+str(i),p[i])
 			    log.debug("Replacing $"+str(i)+" with " + p[i])
-		
         os.system(cmd)
         log.info("Executing: "+ cmd)
 
