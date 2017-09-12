@@ -32,9 +32,10 @@ protocol websockets
 
 ### Add service
 ```
-sudo cp etc/init.d/rmc.sh /etc/init.d/
-sudo chmod 755 /etc/init.d/rmc.sh 
-sudo update-rc.d rmc.sh default
+cd rmc
 chmod 755 rmc.py
-sudo service rmc start
+sudo cp rmc/lib/systemd/system/rmc.service /lib/systemd/system
+sudo systemctl enable rmc.service 
+sudo systemctl start rmc
+sudo reboot
 ```
