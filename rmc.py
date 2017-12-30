@@ -54,6 +54,7 @@ def on_message(client, userdata, msg):
   entity = msg.topic.split('/')[4]
   p = str(msg.payload).strip().split(' ')
   
+    
   #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
   
   if entity == "www" and p[0] == "start"  and config.get('specials','youtube_tv') == 'true':
@@ -63,7 +64,16 @@ def on_message(client, userdata, msg):
 	  if m is not None :
 	    p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
    #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
-    
+
+  #macro special get the line and fill the incomming messages 
+  if entity == "macro" and p[0] in str(config.items("macro")):
+    sc = str(config.get('commands',p[0])).split(':')
+    log.debug("Macro: " +p[0] )
+    entity = sc[0]
+    p[0] = sc[1]
+  
+   #end macro special
+   
     
   r = re.compile(r"(\w+):(\w+):(.*)")
   for k,v in config.items("commands") :
