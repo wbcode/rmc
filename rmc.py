@@ -7,7 +7,7 @@ import re
 import logging
 import argparse
 
-version="0.01"
+version="0.03"
 
 # command line args
 parser = argparse.ArgumentParser(description='Client for the Remote MQTT command application, aka the rmc')
@@ -82,8 +82,8 @@ def on_message(client, userdata, msg):
         cmd = m.group(3)
         if len(p) > 1 : #find an replace all $1 $2 etc with command from mqtt payload
 		    for i in range(1,len(p)) : 
-			    cmd = cmd.replace('$'+str(i),p[i])
-			    log.debug("Replacing $"+str(i)+" with " + p[i])
+			    cmd = cmd.replace('$$'+str(i),p[i])
+			    log.debug("Replacing $$"+str(i)+" with " + p[i])
         os.system(cmd)
         log.info("Executing: "+ cmd)
 
