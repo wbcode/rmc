@@ -1,3 +1,6 @@
+### TO DO
+## UPDATE THE READ ME
+
 ### The begining
 Project for my two upcoming monitors connected to raspberry pi:s. That I can execute remote commands using mqtt.  <br/>
 
