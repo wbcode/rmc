@@ -79,12 +79,14 @@ def on_message(client, userdata, msg):
   for k,v in config.items("commands") :
     m = r.search(v)
     if entity == m.group(1) and p[0] == m.group(2):
-        cmd = m.group(3)
+        test = m.group(3)
+        cmd = m.group(4)
         if len(p) > 1 : #find an replace all $1 $2 etc with command from mqtt payload
 		    for i in range(1,len(p)) : 
 			    cmd = cmd.replace('$$'+str(i),p[i])
 			    log.debug("Replacing $$"+str(i)+" with " + p[i])
         os.system(cmd)
+        client.publish(config.get('general','text_topic'),text) 
         log.info("Executing: "+ cmd)
 
 		
