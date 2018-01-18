@@ -11,7 +11,7 @@ version="0.03"
 
 # command line args
 parser = argparse.ArgumentParser(description='Client for the Remote MQTT command application, aka the rmc')
-parser.add_argument('-c', '--config', default='/home/pi/rmc/rmc.conf', nargs='?', help='Configuration file location, default: /home/pi/rmc/rmc.conf')
+parser.add_argument('-c', '--config', default='/home/pi/rmc/client/rmc.conf', nargs='?', help='Configuration file location, default: /home/pi/rmc/rmc.conf')
 parser.add_argument('-V', '--version', action='store_true', help='Show the version of rmc')
 
 args = parser.parse_args()
@@ -75,11 +75,11 @@ def on_message(client, userdata, msg):
    #end macro special
    
     
-  r = re.compile(r"(\w+):(\w+):(.*)")
+  r = re.compile(r"(\w+):(\w+):((\s*|\w*)+):(.*)")
   for k,v in config.items("commands") :
     m = r.search(v)
     if entity == m.group(1) and p[0] == m.group(2):
-        test = m.group(3)
+        text = m.group(3)
         cmd = m.group(4)
         if len(p) > 1 : #find an replace all $1 $2 etc with command from mqtt payload
 		    for i in range(1,len(p)) : 

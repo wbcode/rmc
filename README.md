@@ -1,5 +1,5 @@
 ### TO DO
-## UPDATE THE READ ME
+#### UPDATE THE READ ME
 
 ### The begining
 Project for my two upcoming monitors connected to raspberry pi:s. That I can execute remote commands using mqtt.  <br/>
@@ -33,12 +33,20 @@ listener 1884
 protocol websockets
 ```
 
-### Add service
+### Add service for client
 ```
 cd rmc
 chmod 755 rmc.py
-sudo cp rmc/lib/systemd/system/rmc.service /lib/systemd/system
+sudo cp lib/systemd/system/rmc.service /lib/systemd/system
 sudo systemctl enable rmc.service 
 sudo systemctl start rmc
-sudo reboot
 ```
+
+### Add service for server
+cd rmc
+chmod 755 rmc.py
+sudo cp lib/systemd/system/rmcserver.service /lib/systemd/system
+sudo systemctl enable rmcserver.service
+sudo systemctl start rmc
+```
+
