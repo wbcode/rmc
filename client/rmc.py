@@ -75,12 +75,14 @@ def on_message(client, userdata, msg):
    #end macro special
    
     
-  r = re.compile(r"(\w+):(\w+):((\s*|\w*)+):(.*)")
+  r = re.compile(r"(\w+):(\w+):([\s*|\w*]+):(.*)")
   for k,v in config.items("commands") :
     m = r.search(v)
     if entity == m.group(1) and p[0] == m.group(2):
         text = m.group(3)
+        print text
         cmd = m.group(4)
+        print cmd
         if len(p) > 1 : #find an replace all $1 $2 etc with command from mqtt payload
 		    for i in range(1,len(p)) : 
 			    cmd = cmd.replace('$$'+str(i),p[i])
