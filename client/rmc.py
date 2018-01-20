@@ -62,7 +62,8 @@ def on_message(client, userdata, msg):
     for i in range(1,len(p)) : 
 	  m = r.search(p[i])
 	  if m is not None :
-	    p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
+	    #p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
+	    p[i] = "https://www.youtube.com/embed/"+m.group(1)+"?autoplay=1"
    #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
 
   #macro special get the line and fill the incomming messages 
