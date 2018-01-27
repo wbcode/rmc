@@ -1,0 +1,16 @@
+[Unit]
+Description=Server for Remote MQTT Command
+After=network-online.target
+
+[Service]
+ExecStart=/home/pi/rmc/rmcserver.py
+Type=simple
+RestartSec=10
+Restart=on-failure
+User=pi
+Group=pi
+
+[Install]
+WantedBy=network-online.target
+Alias=rmcserver.service
+
