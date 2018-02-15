@@ -67,7 +67,8 @@ def on_message(client, userdata, msg):
    #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
 
   #macro special get the line and fill the incomming messages 
-  if entity == "macro" and p[0] in str(config.items("macro")):
+  if entity == "macro" and config.has_option('macro',p[0]):
+    p[0] = config.get('macro',p[0])    
     sc = str(config.get('commands',p[0])).split(':')
     log.debug("Macro: " +p[0] )
     entity = sc[0]
