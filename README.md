@@ -144,5 +144,7 @@ sudo systemctl start rmcserver
 10 - push on/off switches
 ```
 
-### MQTT communication flows
+![alt text](pic/fschema.jpg)
 
+### MQTT communication flows
+![alt text](pic/mqttflow.jpg)
