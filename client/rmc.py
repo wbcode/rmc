@@ -68,12 +68,12 @@ def on_message(client, userdata, msg):
 
  #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
   if entity == "www" and p[0] == "start"  and config.get('specials','twitch_tv') == 'true':
-    r = re.compile(r"http://twitch.tv/(.*)")
+    r = re.compile(r"https://www.twitch.tv/(.*)")
     for i in range(1,len(p)) :
       m = r.search(p[i])
       if m is not None :
       #p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
-      p[i] = "http://twitchtheater.tv/"+m.group(1)
+        p[i] = "http://twitchtheater.tv/"+m.group(1)
  #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
   #macro special get the line and fill the incomming messages 
 
