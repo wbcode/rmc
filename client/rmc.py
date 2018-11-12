@@ -11,7 +11,7 @@ version="0.03"
 
 # command line args
 parser = argparse.ArgumentParser(description='Client for the Remote MQTT command application, aka the rmc')
-parser.add_argument('-c', '--config', default='/home/pi/rmc/client/rmc.conf', nargs='?', help='Configuration file location, default: /home/pi/rmc/rmc.conf')
+parser.add_argument('-c', '--config', default='/home/pi/rmc/client/rmc.conf', nargs='?', help='Configuration file location, default: /home/pi/rmc/client/rmc.conf')
 parser.add_argument('-V', '--version', action='store_true', help='Show the version of rmc')
 
 args = parser.parse_args()
@@ -66,7 +66,17 @@ def on_message(client, userdata, msg):
 	    p[i] = "https://www.youtube.com/embed/"+m.group(1)+"?autoplay=1"
    #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
 
+ #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
+  if entity == "www" and p[0] == "start"  and config.get('specials','twitch_tv') == 'true':
+    r = re.compile(r"http://twitch.tv/(.*)")
+    for i in range(1,len(p)) :
+      m = r.search(p[i])
+      if m is not None :
+      #p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
+      p[i] = "http://twitchtheater.tv/"+m.group(1)
+ #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
   #macro special get the line and fill the incomming messages 
+
   if entity == "macro" and config.has_option('macro',p[0]):
     p[0] = config.get('macro',p[0])    
     sc = str(config.get('commands',p[0])).split(':')
