@@ -54,6 +54,8 @@ def on_message(client, userdata, msg):
   entity = str(msg.topic).split('/')[4]
   p = msg.payload.decode().strip().split(' ')
 
+  macro_target = None
+
   #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
 
   if entity == "www" and p[0] == "start"  and config.get('specials','youtube_tv') == 'true':
@@ -77,6 +79,7 @@ def on_message(client, userdata, msg):
   #macro special get the line and fill the incomming messages
 
   if entity == "macro" and config.has_option('macro',p[0]):
+    macro_target = config.get('macro',p[0])
     p[0] = config.get('macro',p[0])
     sc = str(config.get('commands',p[0])).split(':')
     log.debug("Macro: " +p[0] )
@@ -89,16 +92,19 @@ def on_message(client, userdata, msg):
   r = re.compile(r"(\w+):(\w+):([\s*|\w*]+):(.*)")
   for k,v in config.items("commands") :
     m = r.search(v)
-    if entity == m.group(1) and p[0] == m.group(2):
+  # Check if macro line matches OR if standard command matches entity and p[0]
+    if (macro_target is not None and k == macro_target) or (macro_target is None and entity == m.group(1) and p[0] == m.group(2)):
         text = m.group(3)
         cmd = m.group(4)
         if len(p) > 1 : #find an replace all $1 $2 etc with command from mqtt payload
             for i in range(1,len(p)) :
                 cmd = cmd.replace('$$'+str(i),p[i])
                 log.debug("Replacing $$"+str(i)+" with " + p[i])
+        #log.debug("cmd:"+cmd)
         os.system(cmd)
         client.publish(config.get('general','text_topic'),text)
         log.info("Executing: "+ cmd)
+        break
 
 
 
