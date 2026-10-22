@@ -7,7 +7,7 @@ import re
 import logging
 import argparse
 
-version="0.10 python3"
+version="0.18 python3"
 
 # command line args
 parser = argparse.ArgumentParser(description='Client for the Remote MQTT command application, aka the rmc')
@@ -56,25 +56,27 @@ def on_message(client, userdata, msg):
 
   macro_target = None
 
-  #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
+  # youtube special to move from browser to fullscreen embed mode
+  if entity == "www" and p[0] == "start" and config.get('specials','youtube_tv') == 'true':
+    p[0] = "youtube"
+    # Your exact original regex pattern
+    #r = re.compile(r"https:\/\/www.youtube.com\/watch\?v=(.*)")
+    #for i in range(1, len(p)):
+    #  m = r.search(p[i])
+    #  if m is not None:
+    #    # Rebuild into a clean embed URL that supports autoplay and unmuted sound
+    #    p[i] = "https://www.youtube-nocookie.com/embed/" + m.group(1) + "?autoplay=1&mute=0&rel=0&modestbranding=1"
 
-  if entity == "www" and p[0] == "start"  and config.get('specials','youtube_tv') == 'true':
-    r = re.compile(r"https:\/\/www.youtube.com\/watch\?v=(.*)")
-    for i in range(1,len(p)) :
-      m = r.search(p[i])
-      if m is not None :
-        #p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
-        p[i] = "https://www.youtube.com/embed/"+m.group(1)+"?autoplay=1"
    #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
 
- #youtube special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
+ #twitch special to move from browser to tv mode, find a way to do this in a better way... dont hard code values...
   if entity == "www" and p[0] == "start"  and config.get('specials','twitch_tv') == 'true':
     r = re.compile(r"https://www.twitch.tv/(.*)")
     for i in range(1,len(p)) :
       m = r.search(p[i])
       if m is not None :
       #p[i] = "https://www.youtube.com/tv#/watch?v="+m.group(1)
-        p[i] = "http://twitchtheater.tv/"+m.group(1)
+        p[i] = "http://twitchtheater.tv/"+m.group(1)+"/"
  #end youtube special ,maybe move this to function if there will be many off these... or create hooks...
   #macro special get the line and fill the incomming messages
 
